@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const resultDiv = document.getElementById('result');
   const h1 = document.querySelector('h1');
 
-  // 自动填充上次内容
+  // Auto-fill last input content
   if (chrome && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get('rpcSenderForm', (data) => {
       if (data && data.rpcSenderForm) {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // 监听请求地址和请求体变化，自动保存
+  // Listen for changes in request URL and body, auto-save
   function saveForm() {
     if (!(chrome && chrome.storage && chrome.storage.local)) return;
     const data = {
@@ -45,22 +45,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (el) el.addEventListener('change', saveForm);
   });
 
-  // 根据请求方法切换请求体输入框的可用状态
+  // Toggle request body input availability based on HTTP method
   methodEl.addEventListener('change', function () {
     if (['POST', 'PUT', 'PATCH'].includes(methodEl.value)) {
       bodyEl.disabled = false;
-      bodyEl.placeholder = 'JSON格式，仅POST/PUT/PATCH需要';
+      bodyEl.placeholder = 'JSON format, only POST/PUT/PATCH need';
     } else {
       bodyEl.disabled = true;
       bodyEl.value = '';
-      bodyEl.placeholder = '无需请求体';
+      bodyEl.placeholder = 'No need request body';
     }
   });
   methodEl.dispatchEvent(new Event('change'));
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    responseEl.textContent = '请求中...';
+    responseEl.textContent = 'Requesting...';
     const url = document.getElementById('url').value.trim();
     const method = methodEl.value;
     let body = bodyEl.value.trim();
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
           body = JSON.stringify(JSON.parse(body));
         } catch (err) {
-          responseEl.textContent = '请求体不是有效的JSON格式！';
+          responseEl.textContent = 'Request body is not a valid JSON format!';
           return;
         }
         options.body = body;
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         options.headers = { 'Content-Type': 'application/json' };
       }
     }
-    // 保存历史
+    // Save request history
     if (chrome && chrome.storage && chrome.storage.local) {
       const record = {
         url,
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       chrome.storage.local.get('rpcSenderHistory', (data) => {
         let arr = data && data.rpcSenderHistory ? data.rpcSenderHistory : [];
         arr.push(record);
-        // 最多保存100条
+        // Keep at most 100 records
         if (arr.length > 100) arr = arr.slice(arr.length - 100);
         chrome.storage.local.set({ rpcSenderHistory: arr });
       });
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       responseEl.textContent = resultText;
     } catch (err) {
-      responseEl.textContent = '请求失败：' + err;
+      responseEl.textContent = 'Request failed: ' + err;
     }
   });
 
@@ -117,24 +117,24 @@ document.addEventListener('DOMContentLoaded', function () {
       const text = document.getElementById('response').textContent;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {
-          copyBtn.textContent = '已复制';
-          setTimeout(() => { copyBtn.textContent = '复制'; }, 1200);
+          copyBtn.textContent = 'Copied';
+          setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1200);
         });
       } else {
-        // 兼容性处理
+        // Compatibility handling
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand('copy');
         document.body.removeChild(textarea);
-        copyBtn.textContent = '已复制';
-        setTimeout(() => { copyBtn.textContent = '复制'; }, 1200);
+        copyBtn.textContent = 'Copied';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1200);
       }
     });
   }
 
-  // 显示历史list界面
+  // Show history list view
   if (showHistoryBtn) {
     showHistoryBtn.addEventListener('click', function () {
       renderHistory();
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
       historyDetailView.style.display = 'none';
     });
   }
-  // 关闭历史list界面
+  // Close history list view
   if (closeHistoryListBtn) {
     closeHistoryListBtn.addEventListener('click', function () {
       historyListView.style.display = 'none';
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
       showHistoryBtn.style.display = '';
     });
   }
-  // 导出历史
+  // Export history
   if (exportHistoryBtn) {
     exportHistoryBtn.addEventListener('click', async function () {
       if (!(chrome && chrome.storage && chrome.storage.local)) return;
@@ -174,22 +174,22 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
-  // 渲染历史列表
+  // Render history list
   function renderHistory() {
     if (!(chrome && chrome.storage && chrome.storage.local)) return;
     chrome.storage.local.get('rpcSenderHistory', (data) => {
       const arr = data && data.rpcSenderHistory ? data.rpcSenderHistory : [];
       if (arr.length === 0) {
-        historyList.innerHTML = '<div style="color:#999;text-align:center;">暂无历史记录</div>';
+        historyList.innerHTML = '<div style="color:#999;text-align:center;">No history record</div>';
         return;
       }
       historyList.innerHTML = arr.slice().reverse().map((item, idx) =>
         `<div class="history-item" data-idx="${arr.length-1-idx}">
           <div><span class="history-url">${item.url}</span><span class="history-time">${item.time}</span></div>
-          <div class="history-body">${item.body ? item.body : '<span style=\'color:#bbb\'>(无请求体)</span>'}</div>
+          <div class="history-body">${item.body ? item.body : '<span style=\'color:#bbb\'>(No request body)</span>'}</div>
         </div>`
       ).join('');
-      // 绑定点击事件
+      // Bind click events
       Array.from(document.querySelectorAll('.history-item')).forEach(el => {
         el.addEventListener('click', function () {
           const idx = parseInt(el.getAttribute('data-idx'));
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
-  // 显示历史详情界面
+  // Show history detail view
   function showHistoryDetail(idx) {
     if (!(chrome && chrome.storage && chrome.storage.local)) return;
     chrome.storage.local.get('rpcSenderHistory', (data) => {
@@ -206,15 +206,15 @@ document.addEventListener('DOMContentLoaded', function () {
       const item = arr[idx];
       if (!item) return;
       historyDetailContent.innerHTML =
-        `<div><b>请求地址：</b><div style='color:#2563eb;word-break:break-all;'>${item.url}</div></div>
-         <div style='margin-top:10px;'><b>请求方法：</b>${item.method}</div>
-         <div style='margin-top:10px;'><b>请求体：</b><pre style='background:#f4f6fb;padding:8px 10px;border-radius:6px;white-space:pre-wrap;word-break:break-all;'>${item.body ? item.body : '(无请求体)'}</pre></div>
-         <div style='margin-top:10px;'><b>请求时间：</b>${item.time}</div>`;
+        `<div><b>Request URL:</b><div style='color:#2563eb;word-break:break-all;'>${item.url}</div></div>
+         <div style='margin-top:10px;'><b>Request method:</b>${item.method}</div>
+         <div style='margin-top:10px;'><b>Request body:</b><pre style='background:#f4f6fb;padding:8px 10px;border-radius:6px;white-space:pre-wrap;word-break:break-all;'>${item.body ? item.body : '(No request body)'}</pre></div>
+         <div style='margin-top:10px;'><b>Request time:</b>${item.time}</div>`;
       historyListView.style.display = 'none';
       historyDetailView.style.display = 'flex';
     });
   }
-  // 返回历史list界面
+  // Return to history list view
   if (backToListBtn) {
     backToListBtn.addEventListener('click', function () {
       historyDetailView.style.display = 'none';

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,9 @@
   <div class="container">
     <h1>RPC Sender</h1>
     <form id="request-form">
-      <label for="url">请求地址：</label>
+      <label for="url">Request URL:</label>
       <input type="text" id="url" name="url" placeholder="https://api.example.com" required>
-      <label for="method">请求方法：</label>
+      <label for="method">Request Method:</label>
       <select id="method" name="method">
         <option value="GET">GET</option>
         <option value="POST">POST</option>
@@ -20,12 +20,12 @@
         <option value="DELETE">DELETE</option>
         <option value="PATCH">PATCH</option>
       </select>
-      <label for="body">请求体（可选）：</label>
-      <textarea id="body" name="body" placeholder="JSON格式，仅POST/PUT/PATCH需要"></textarea>
-      <button type="submit">发送请求</button>
+      <label for="body">Request Body (optional):</label>
+      <textarea id="body" name="body" placeholder="JSON format, only needed for POST/PUT/PATCH"></textarea>
+      <button type="submit">Send Request</button>
     </form>
     <div id="result">
-      <h2>响应结果 <button id="copy-response" type="button">复制</button></h2>
+      <h2>Response <button id="copy-response" type="button">Copy</button></h2>
       <pre id="response"></pre>
     </div>
   </div>

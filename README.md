@@ -1,36 +1,36 @@
-# RPC Sender Chrome 插件
+# RPC Sender Chrome Extension
 
-## 功能简介
+## Feature Overview
 
-RPC Sender 是一个简洁美观的 Chrome 插件，支持自定义 HTTP 请求，支持 GET/POST/PUT/DELETE/PATCH 方法，可填写请求体并查看响应结果，一键复制响应内容。
+RPC Sender is a simple and elegant Chrome extension that supports custom HTTP requests, including GET/POST/PUT/DELETE/PATCH methods. You can fill in the request body, view the response, and copy the response content with one click.
 
-## 安装与使用
+## Installation & Usage
 
-### 1. 下载插件源码
-将本项目文件夹（`RPCSender_chrome_extension`）完整保存到本地。
+### 1. Download the Extension Source Code
+Save the entire project folder (`RPCSender_chrome_extension`) to your local machine.
 
-### 2. 打开 Chrome 扩展管理页面
-在 Chrome 浏览器地址栏输入：
+### 2. Open Chrome Extensions Management Page
+In the Chrome browser address bar, enter:
 ```
 chrome://extensions/
 ```
-并回车。
+and press Enter.
 
-### 3. 开启开发者模式
-在扩展管理页面右上角，打开“开发者模式”开关。
+### 3. Enable Developer Mode
+Turn on the "Developer mode" switch at the top right of the extensions management page.
 
-### 4. 加载已解压的扩展程序
-点击左上角“加载已解压的扩展程序”按钮，选择你本地的 `RPCSender_chrome_extension` 文件夹。
+### 4. Load Unpacked Extension
+Click the "Load unpacked" button at the top left, and select your local `RPCSender_chrome_extension` folder.
 
-### 5. 固定插件并使用
-加载成功后，可以点击扩展栏中的 RPC Sender 图标，打开插件弹窗，填写请求信息并发送请求。
+### 5. Pin and Use the Extension
+After successful loading, click the RPC Sender icon in the extensions bar to open the popup, fill in the request information, and send the request.
 
-## 常见问题
-- **插件无法联网？** 请确保请求的接口允许跨域（CORS），或接口本身支持被浏览器直接访问。
-- **请求体格式错误？** POST/PUT/PATCH 方法下，请确保请求体为合法 JSON 格式。
+## FAQ
+- **Can't connect to the network?** Please ensure the requested API allows cross-origin (CORS), or the API itself supports direct browser access.
+- **Request body format error?** For POST/PUT/PATCH methods, please ensure the request body is in valid JSON format.
 
-## 卸载插件
-在扩展管理页面，找到“RPC Sender”，点击“移除”即可。
+## Uninstall Extension
+In the extensions management page, find "RPC Sender" and click "Remove".
 
 ---
-如有更多需求或建议，欢迎反馈！ 
+For more needs or suggestions, feel free to provide feedback! 

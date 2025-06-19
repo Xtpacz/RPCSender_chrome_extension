@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "RPC Sender",
   "version": "1.0.0",
-  "description": "一个用于发送HTTP请求的Chrome插件。",
+  "description": "a chrome extension for sending HTTP requests",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
